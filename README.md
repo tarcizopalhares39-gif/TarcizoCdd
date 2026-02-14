@@ -1,2 +1,0 @@
-# TarcizoCdd
-Página corporativa funcional 
