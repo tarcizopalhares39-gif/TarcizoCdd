@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proj. Ticket Alimentação</title>
+    <style>
+        /* Variáveis de Cores - Tema AMOLED Cyberpunk */
+        :root {
+            --bg-amoled: #000000;
+            --neon-blue: #00f3ff;
+            --correios-yellow: #feda00;
+            --text-light: #e0e0e0;
+            --neon-green: #39ff14;
+            --neon-alert: #ffff00;
+            --neon-red: #ff003c;
+            --panel-bg: #0a0a0a;
+        }
+
+        body {
+            background-color: var(--bg-amoled);
+            color: var(--text-light);
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* Texto de Inicialização (Azul) */
+        .sys-init {
+            color: var(--neon-blue);
+            font-size: 0.9rem;
+            text-shadow: 0 0 5px var(--neon-blue);
+            margin-bottom: 20px;
+            animation: pulse-blue 2s infinite;
+        }
+
+        .container {
+            background-color: var(--panel-bg);
+            border: 1px solid #222;
+            border-top: 3px solid var(--neon-blue);
+            border-bottom: 3px solid var(--correios-yellow);
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 243, 255, 0.05);
+            position: relative;
+        }
+
+        /* Ícone de Raio (Amarelo Correios) */
+        .bolt-icon {
+            color: var(--correios-yellow);
+            font-size: 1.5rem;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            text-shadow: 0 0 8px var(--correios-yellow);
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-light);
+            border-bottom: 1px dashed #333;
+            padding-bottom: 10px;
+        }
+
+        .input-group {
+            margin-top: 25px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            color: #888;
+        }
+
+        input[type="number"] {
+            background-color: #000;
+            border: 1px solid #333;
+            color: var(--neon-blue);
+            font-size: 1.5rem;
+            padding: 12px;
+            border-radius: 8px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+        }
+
+        input[type="number"]:focus {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+            transform: scale(1.02);
+        }
+
+        .info-panel {
+            margin-top: 25px;
+            background: #000;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #222;
+        }
+
+        .days-left {
+            font-size: 1rem;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .days-highlight {
+            color: var(--correios-yellow);
+            font-weight: bold;
+        }
+
+        .result-container {
+            margin-top: 15px;
+        }
+
+        .result-label {
+            font-size: 0.8rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-top: 5px;
+            transition: all 0.5s ease;
+        }
+
+        /* Classes de Cores Dinâmicas */
+        .status-green {
+            color: var(--neon-green);
+            text-shadow: 0 0 15px var(--neon-green);
+            animation: pulse-glow-green 2s infinite alternate;
+        }
+        .status-yellow {
+            color: var(--neon-alert);
+            text-shadow: 0 0 15px var(--neon-alert);
+            animation: pulse-glow-yellow 2s infinite alternate;
+        }
+        .status-red {
+            color: var(--neon-red);
+            text-shadow: 0 0 15px var(--neon-red);
+            animation: pulse-glow-red 0.5s infinite alternate; /* Pisca mais rápido em alerta */
+        }
+
+        /* Animações Keyframes */
+        @keyframes pulse-blue {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        @keyframes pulse-glow-green {
+            from { text-shadow: 0 0 5px var(--neon-green); }
+            to { text-shadow: 0 0 20px var(--neon-green), 0 0 30px var(--neon-green); }
+        }
+        @keyframes pulse-glow-yellow {
+            from { text-shadow: 0 0 5px var(--neon-alert); }
+            to { text-shadow: 0 0 20px var(--neon-alert), 0 0 30px var(--neon-alert); }
+        }
+        @keyframes pulse-glow-red {
+            from { text-shadow: 0 0 5px var(--neon-red); transform: scale(1); }
+            to { text-shadow: 0 0 20px var(--neon-red), 0 0 40px var(--neon-red); transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sys-init">>> SYSTEM INITIALIZATION... TICKET ALIMENTAÇÃO ONLINE</div>
+
+    <div class="container">
+        <div class="bolt-icon">⚡</div>
+        <h2>Projeção de Gastos</h2>
+        
+        <div class="input-group">
+            <label for="saldoAtual">SALDO ATUAL NO APP (R$)</label>
+            <input type="number" id="saldoAtual" placeholder="0.00" step="0.01" oninput="calcularProjecao()">
+        </div>
+
+        <div class="info-panel">
+            <div class="days-left" id="diasRestantesTexto">
+                Dias até o próximo dia 13: <span class="days-highlight" id="diasCount">--</span>
+            </div>
+            
+            <div class="result-container">
+                <div class="result-label">Cota Diária Projetada</div>
+                <div class="result-value" id="valorProjetado">R$ 0,00</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Função para calcular os dias até o próximo dia 13
+        function getDiasAteProximo13() {
+            const hoje = new Date();
+            let proximo13 = new Date(hoje.getFullYear(), hoje.getMonth(), 13);
+
+            // Se hoje for dia 13 ou depois, o próximo alvo é o dia 13 do mês seguinte
+            if (hoje.getDate() >= 13) {
+                proximo13.setMonth(proximo13.getMonth() + 1);
+            }
+
+            // Calcula a diferença em milissegundos e converte para dias
+            const diferencaTempo = proximo13.getTime() - hoje.getTime();
+            const diferencaDias = Math.ceil(diferencaTempo / (1000 * 3600 * 24));
+            
+            return diferencaDias;
+        }
+
+        let diasRestantes = getDiasAteProximo13();
+        document.getElementById('diasCount').innerText = diasRestantes;
+
+        // Variável para armazenar a animação atual e evitar conflitos se o usuário digitar rápido
+        let animationFrameId;
+
+        function calcularProjecao() {
+            const inputSaldo = document.getElementById('saldoAtual').value;
+            const saldo = parseFloat(inputSaldo);
+            const displayValor = document.getElementById('valorProjetado');
+
+            if (isNaN(saldo) || saldo <= 0) {
+                displayValor.innerText = "R$ 0,00";
+                displayValor.className = "result-value"; // Reseta as cores
+                return;
+            }
+
+            const valorDiario = saldo / diasRestantes;
+            
+            // Define a classe de cor baseada no valor
+            let classeCor = "";
+            if (valorDiario >= 50) {
+                classeCor = "status-green";
+            } else if (valorDiario >= 35 && valorDiario < 50) {
+                classeCor = "status-yellow";
+            } else {
+                classeCor = "status-red";
+            }
+
+            // Inicia a animação dos números
+            animarNumeros(displayValor, valorDiario, classeCor);
+        }
+
+        // Função para criar o efeito "Counter" (os números rodando até o resultado)
+        function animarNumeros(elemento, valorFinal, classeCor) {
+            let startTimestamp = null;
+            const duration = 800; // Duração da animação em milissegundos
+            const valorInicial = 0;
+
+            // Cancela a animação anterior se houver
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+
+            // Aplica a cor imediatamente para dar o feedback visual
+            elemento.className = `result-value ${classeCor}`;
+
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                
+                // Efeito de desaceleração suave (ease-out)
+                const easeOutProgress = progress * (2 - progress);
+                const valorAtual = valorInicial + (valorFinal - valorInicial) * easeOutProgress;
+
+                // Formata para moeda brasileira
+                elemento.innerText = `R$ ${valorAtual.toFixed(2).replace('.', ',')}`;
+
+                if (progress < 1) {
+                    animationFrameId = requestAnimationFrame(step);
+                } else {
+                    // Garante que o valor final seja exato no final da animação
+                    elemento.innerText = `R$ ${valorFinal.toFixed(2).replace('.', ',')}`;
+                }
+            };
+
+            animationFrameId = requestAnimationFrame(step);
+        }
+    </script>
+</body>
+</html>
